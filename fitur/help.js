@@ -213,5 +213,6 @@ exports.allmenu = (sender, prefix, pushname, isOwner, isPremium, balance, limit,
   - @arsrfi.jpg (Arasya)
   - M Hadi Firmansya (Hadi Api)
   - @melcanz_ (Amel)
-  - @hardianto.xyz (Anto)`
+  - @hardianto.xyz (Anto)
+  - @DeltaDev (Andika)`
 }
