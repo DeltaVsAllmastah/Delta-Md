@@ -16,7 +16,12 @@ THANKS TO
 Matur Nuwun*/
 "use strict";
 const {
-	downloadContentFromMessage
+generateWAMessageFromContent, proto, 
+generateWAMessageContent, 
+generateWAMessage, 
+prepareWAMessageMedia, areJidsSameUser, 
+getContentType 
+downloadContentFromMessage
 } = require("@adiwajshing/baileys")
 const { color, bgcolor } = require('../lib/color')
 const { getBuffer, fetchJson, fetchText, getRandom, getGroupAdmins, runtime, sleep, makeid } = require("../lib/myfunc");
@@ -433,12 +438,40 @@ if (chats.startsWith(`Bot`)){
 		switch(command) {
 			// Main Menu
 			case prefix+'menu':
-			case prefix+'help':
+			case prefix+'help': {
 			  /*conn.sendMessage(from, { audio: fs.readFileSync('audio/Assalamualaika.m4a'), mimetype: 'audio/mp4', ptt: true}, {quoted: msg})*/
 			    var teks = allmenu(sender, prefix, pushname, isOwner, isPremium, balance, limit, limitCount, glimit, gcount)
 			    
-				/*conn.sendMessage(from, { react: { text: `👋`, key: msg.key }})*/
-conn.sendMessage(from, { caption: teks, image: fs.readFileSync('media/Jojo2.jpg'), templateButtons: buttonsDefault, footer: '© Delta - Bot', mentions: [sender]} )
+				/*conn.sendMessage(from, { react: { text: `👋`, key: msg.key }})
+conn.sendMessage(from, { caption: teks, image: fs.readFileSync('media/Jojo2.jpg'), templateButtons: buttonsDefault, footer: '© Delta - Bot', mentions: [sender]} )*/
+const template = generateWAMessageFromContent(m.chat, proto.Message.fromObject({
+                    templateMessage: {
+                        hydratedTemplate: {
+                            hydratedContentText: teks,
+                            locationMessage: {
+                            jpegThumbnail: fs.readFileSync('media/Jojo2.jpg')},
+                            hydratedFooterText: `© Delta - Bot`,
+                            hydratedButtons: [{
+                                urlButton: {
+                                    displayText: 'WEBSITE',
+                                    url: 'https://deltahost.com/'
+                                }
+                            }, {
+                                callButton: {
+                                    displayText: 'Owner',
+                                    phoneNumber: 'https://wa.me/${pulsa}'
+                                }
+                            }, {
+                                quickReplyButton: {
+                                    displayText: 'Donasi',
+                                    id: '${prefix}donasi'
+                                }
+                            }]
+                        }
+                    }
+                }), { userJid: m.chat })
+                conn.relayMessage(m.chat, template.message, { messageId: template.key.id })
+}
 				break
 case prefix+'delete':
   case prefix+'d':
@@ -451,7 +484,7 @@ case prefix+'donasiah':
 case prefix+'donasi':
   case prefix+'donate':
   var donasibut = [
-			{ urlButton: { displayText: `𝙂𝙧𝙪𝙥 𝙅𝙤𝙟𝙤`, url : `https://chat.whatsapp.com/HECLovHbCI6LVVH4Q8FN2C` } },
+			{ urlButton: { displayText: `WEBSITE`, url : `https://deltahost.com/` } },
 			{ quickReplyButton: { displayText: `Aku Ingin Donasi`, id: `${prefix}donasiah` } },
 		]
 var teks = `  │
@@ -470,11 +503,11 @@ var teks = `  │
   
   Donasi Untuk Upgrade Ke Fitur Premium
   Note : Donasi Seikhlasnya`
- conn.sendMessage(from, { caption: teks, image: {url: `https://i.ibb.co/CPcFJ6c/IMG-20220131-WA0504.jpg`}, templateButtons: donasibut, footer: '© Jojo - Bot', mentions: [sender]} )  
+ conn.sendMessage(from, { caption: teks, image: {url: `https://i.ibb.co/CPcFJ6c/IMG-20220131-WA0504.jpg`}, templateButtons: donasibut, footer: '© Delta - Bot', mentions: [sender]} )  
 			    break
 case prefix+'sewa':
   case prefix+'daftarprem':
-  var teks = `*[ LIST HARGA JOJO PREM ]*
+  var teks = `*[ LIST HARGA Delta PREM ]*
 
 _Yakin kamu mau daftar ke premium?_
 
@@ -486,12 +519,12 @@ _Yakin kamu mau daftar ke premium?_
 
 *LIST DAFTAR PREMIUM*
 - Rp.5.000 - PERMANENT`
-			    conn.sendMessage(from, { caption: teks, location: { jpegThumbnail: fs.readFileSync('media/Jojo2.jpg') }, templateButtons: button5, footer: '© Jojo - Bot', mentions: [sender] })
+			    conn.sendMessage(from, { caption: teks, location: { jpegThumbnail: fs.readFileSync('media/Jojo2.jpg') }, templateButtons: button5, footer: '© Delta - Bot', mentions: [sender] })
 			    break
 			case prefix+'runtime':
 			    reply(runtime(process.uptime()))
 			    break
-case prefix+'groupjojo':
+case prefix+'groupDelta':
   reply("Group 1\n\nhttps://chat.whatsapp.com/HECLovHbCI6LVVH4Q8FN2C\nGroup 2\n\nhttps://chat.whatsapp.com/DqM488U5RvmGpsbTMfDbMv\nCobain Bot Telegram Jojo yuk!\nhttps://t.me/docsjojo_bot?start=help")
   break
 			case prefix+'speed':
@@ -503,9 +536,9 @@ case prefix+'groupjojo':
 case prefix+'infobot':
   case prefix+'inforobot':
     case prefix+'info':
-      var caption = `*[ INFO ROBOT JOJO ]*
+      var caption = `*[ INFO ROBOT DELTA ]*
 
-*Nama Bot :* Jojo
+*Nama Bot :* Delta
 *Name Owner :* Arasya
 *Nomor Bot :* wa.me/${nobot}
 *Nomor Owner :* wa.me/${ownerNumber}
