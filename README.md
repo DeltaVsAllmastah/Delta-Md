@@ -1,5 +1,5 @@
-# JOJO-MD
-Jojo Bot Multi Device
+# DeltaBot
+Delta Bot Multi Device
 
 ## DEPLOY TO HEROKU
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/GetSya/JOJO-MD)
